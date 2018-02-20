@@ -12,9 +12,131 @@
       <div class="slides">
         <section data-markdown>
           <textarea data-template>
-            ## Page title
+            # Pipeline in a Box
 
-            This is a test
+            Containerizing a next generation sequencing pipeline
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ### In Collaboration With
+
+            [Elizabeth Bartom](http://www.feinberg.northwestern.edu/faculty-profiles/az/profile.html?xid=32311)
+
+            [Janna Nugent](http://www.it.northwestern.edu/research/about/rcs-staff.html)
+
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ### DISCLAIMER
+
+            Any criticism is directed at code, not people.
+
+            I have written far worse code than any found in this project.
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ### Ceto
+
+            Ceto is the name given to the NGS pipeline developed by Elizabeth and her collaborators.
+
+            [https://github.com/ebartom/NGSbartom/](https://github.com/ebartom/NGSbartom/)
+
+            ![Ceto diagram](https://raw.githubusercontent.com/ebartom/NGSbartom/master/CetoDiagram2.png) <!-- .element height="50%" width="50%" -->
+
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ### Ceto and the Bioinformatics community
+
+            Elizabeth wished to make Ceto available to the wider bioinformatics community.
+
+            Namely, people without Quest access.<!-- .element: class="fragment" -->
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ### Containers are popular for a reason
+
+            There are benefits to putting code in containers:
+            - easy distribution<!-- .element: class="fragment" -->
+            - easy scaling<!-- .element: class="fragment" -->
+            - encourages good architecture<!-- .element: class="fragment" -->
+
+            Let's capture those benefits for Ceto!<!-- .element: class="fragment" -->
+
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ### Ceto, described
+
+            - A ~2700-line Perl script
+            - That writes out multiple shell scripts<!-- .element: class="fragment" -->
+            - Which are (optionally) submitted to the Quest scheduler<!-- .element: class="fragment" -->
+            - A set of R and Perl scripts, called via the shell scripts, that do post-alignment analysis of samples<!-- .element: class="fragment" -->
+            - A bit of documentation<!-- .element: class="fragment" -->
+
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ### Ceto, its assumptions
+
+            - Quest modules<!-- .element: class="fragment" -->
+            - Quest scheduler<!-- .element: class="fragment" -->
+            - Quest storage / filesystem<!-- .element: class="fragment" -->
+
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ### Mapping Ceto to Docker
+
+            Execution environment must match Quest.
+
+            Must replicate scheduler in some way.
+
+            "Quest in a box".<!-- .element: class="fragment" -->
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ![Good luck!](https://media.giphy.com/media/3ornk7TgUdhjhTYgta/giphy.gif)
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ### con·tain·er·ize
+
+            *verb*
+
+            Write instructions that a computer can follow to create a filesystem and a default program to run.
+            
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ### Containerizing Ceto
+
+            Reading through `buildPipelineScripts.pl` and the documentation to
+            find module dependencies, determine order of execution of shell
+            scripts, and write a wrapper to simulate the scheduler.
+
           </textarea>
         </section>
 
@@ -47,7 +169,7 @@
     // Display the page number of the current slide
     slideNumber: true,
     // Push each slide change to the browser history
-    history: false,
+    history: true,
     // Enable keyboard shortcuts for navigation
     keyboard: true,
     // Enable the slide overview mode
