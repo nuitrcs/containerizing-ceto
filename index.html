@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/theme/beige.min.css">
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/lib/css/zenburn.min.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown>
+          <textarea data-template>
+            ## Page title
+
+            This is a test
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Markdown support
+            Write content using inline or external Markdown.
+            Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+            ```
+            <section data-markdown>
+              ## Markdown support
+              Write content using inline or external Markdown.
+              Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+            </section>
+            ```
+          </script>
+        </section>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/lib/js/head.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/js/reveal.min.js"></script>
+  <script type="text/javascript">
+    Reveal.initialize({
+
+    // Display controls in the bottom right corner
+    controls: true,
+    // Display a presentation progress bar
+    progress: true,
+    // Display the page number of the current slide
+    slideNumber: true,
+    // Push each slide change to the browser history
+    history: false,
+    // Enable keyboard shortcuts for navigation
+    keyboard: true,
+    // Enable the slide overview mode
+    overview: true,
+    // Vertical centering of slides
+    center: true,
+    // Turns fragments on and off globally
+    fragments: true,
+    // Flags if the presentation is running in an embedded mode,
+    // i.e. contained within a limited portion of the screen
+    embedded: false,
+    // Flags if we should show a help overlay when the questionmark
+    // key is pressed
+    help: true,
+    // Hides the address bar on mobile devices
+    hideAddressBar: true,
+    // Transition style
+    transition: 'slide', // none/fade/slide/convex/concave/zoom
+    // Transition speed
+    transitionSpeed: 'default', // default/fast/slow
+    dependencies: [
+      // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+
+      // Interpret Markdown in <section> elements
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/plugin/markdown/markdown.min.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+
+      // // Syntax highlight for <code> elements
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/plugin/highlight/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+      // // Zoom in and out with Alt+click
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/plugin/zoom-js/zoom.min.js', async: true }
+    ]
+    });
+  </script>
+  </body>
+</html>
