@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/theme/moon.min.css">
     <!-- Code syntax highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
+  <style>
+  .reveal .slides > section.leftalign > p { text-align:left; }
+  </style>
   </head>
   <body>
     <div class="reveal">
@@ -26,16 +29,6 @@
 
             [Janna Nugent](http://www.it.northwestern.edu/research/about/rcs-staff.html)
 
-          </textarea>
-        </section>
-
-        <section data-markdown>
-          <textarea data-template>
-            ### DISCLAIMER
-
-            Any criticism is directed at code, not people.
-
-            I have written far worse code than any found in this project.
           </textarea>
         </section>
 
@@ -76,15 +69,21 @@
           </textarea>
         </section>
 
-        <section data-markdown>
+        <section data-markdown class="leftalign">
           <textarea data-template>
-            ### Ceto, described
+            ### Ceto, described 
 
-            - A ~2700-line Perl script
-            - That writes out multiple shell scripts<!-- .element: class="fragment" -->
-            - Which are (optionally) submitted to the Quest scheduler<!-- .element: class="fragment" -->
-            - A set of R and Perl scripts, called via the shell scripts, that do post-alignment analysis of samples<!-- .element: class="fragment" -->
-            - A bit of documentation<!-- .element: class="fragment" -->
+            A Perl script
+
+            That writes out multiple shell scripts<!-- .element: class="fragment" -->
+
+            Which are (optionally) submitted to the Quest scheduler<!-- .element: class="fragment" -->
+
+            A set of R and Perl scripts, called via the shell scripts, that do post-alignment analysis of samples<!-- .element: class="fragment" -->
+
+            Documentation<!-- .element: class="fragment" -->
+
+            (This is how I view it, not how a bioinformatician views it.)<!-- .element: class="fragment" -->
 
           </textarea>
         </section>
@@ -140,7 +139,7 @@
           </script>
         </section>
 
-        <section data-markdown>
+        <section data-markdown class="leftalign">
           <script type="text/template">
             ### The Dockerfile: Layers
             Each line in a Dockerfile is an instruction that creates a new layer.
@@ -158,7 +157,7 @@
           </script>
         </section>
 
-        <section data-markdown>
+        <section data-markdown class="leftalign">
           <script type="text/template">
             ### The Dockerfile: Software Installation
             Software can be downloaded and installed as on a normal system.
@@ -267,7 +266,7 @@
           </script>
         </section>
 
-        <section data-markdown>
+        <section data-markdown class="leftalign">
           <script type="text/template">
             ### The Dockerfile: The Entrypoint
             Tell Docker what program to run when the container starts.
@@ -332,7 +331,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/js/reveal.min.js"></script>
   <script type="text/javascript">
     Reveal.initialize({
-		width: 1024,
+    width: 1024,
     slideNumber: true,
     history: true,
     dependencies: [
