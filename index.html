@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/theme/beige.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/theme/moon.min.css">
     <!-- Code syntax highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/lib/css/zenburn.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
   </head>
   <body>
     <div class="reveal">
@@ -120,17 +120,6 @@
 
         <section data-markdown>
           <textarea data-template>
-            ### con·tain·er·ize
-
-            *verb*
-
-            Write instructions that a computer can follow to create a filesystem and a default program to run.
-            
-          </textarea>
-        </section>
-
-        <section data-markdown>
-          <textarea data-template>
             ### Containerizing Ceto
 
             Reading through `buildPipelineScripts.pl` and the documentation to
@@ -142,18 +131,200 @@
 
         <section data-markdown>
           <script type="text/template">
-            ## Markdown support
-            Write content using inline or external Markdown.
-            Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+            ### The Dockerfile
+            All Dockerfiles start from a "base" image.
             ```
-            <section data-markdown>
-              ## Markdown support
-              Write content using inline or external Markdown.
-              Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-            </section>
+            FROM centos:7
             ```
+            <!-- .element: class="dockerfile" -->
           </script>
         </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### The Dockerfile: Layers
+            Each line in a Dockerfile is an instruction that creates a new layer.
+
+            To minimize layers, do as many things per command as possible.
+            ```
+            RUN yum update -y && yum install -y \
+              environment-modules git glibc-static gcc gcc-c++ boost \
+              boost-devel cmake make zlib-devel ncurses-devel \
+              java-1.8.0-openjdk java-1.8.0-openjdk-devel unzip bzip2 \
+              gcc-gfortran perl-List-MoreUtils libcurl-devel \
+              libxml2-devel openssl-devel gd-devel cairo-devel which
+            ```
+            <!-- .element: class="dockerfile" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### The Dockerfile: Software Installation
+            Software can be downloaded and installed as on a normal system.
+            ```
+            RUN curl -O https://support.illumina.com/content/dam/illumina-support/documents/downloads/software/bcl2fastq/bcl2fastq2-v2.17.1.14-Linux-x86_64.rpm && \
+                yum -y --nogpgcheck localinstall bcl2fastq2-v2.17.1.14-Linux-x86_64.rpm
+            ```
+            <!-- .element: class="dockerfile" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### The Dockerfile: Software Installation
+            Installation of specific versions from a git repo is possible.
+            ```
+            RUN git clone https://github.com/BenLangmead/bowtie2.git && \
+              cd bowtie2 && \
+              git checkout tags/v2.2.6 && \
+              make && \
+              make install
+            ```
+            <!-- .element: class="dockerfile" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### The Dockerfile: Fake Modulefiles
+            Stub modulefiles recreate the Quest module interface.
+            ```
+            COPY resources/modulefiles/ /etc/modulefiles/
+            ```
+            <!-- .element: class="dockerfile" -->
+            
+            ```
+            #%Module
+
+            proc ModulesHelp { } {
+               puts stderr "This module adds [ module-info name ]"
+            }
+
+            module-whatis "This module adds [ module-info name ]"
+
+            prepend-path PATH /usr/local/bin
+            ```
+            <!-- .element: class="tcl fragment" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### The Dockerfile: Fake Modulefiles
+            Stub modulefiles recreate the Quest module interface.
+            ```
+            $ tree -n resources/modulefiles/
+            resources/modulefiles/
+            ├── bcl2fastq
+            │   └── 2.17.1.14
+            ├── boost
+            │   └── 1.56.0
+            ├── bowtie
+            │   └── 1.1.2
+            ├── bowtie2
+            │   └── 2.2.6
+            ├── bwa
+            │   └── 0.7.12
+            ├── cmake
+            │   └── 2.8.11.1
+            ├── gcc
+            │   └── 4.8.3
+            ├── java
+            │   └── jdk1.8.0_25
+            ├── mpi
+            │   └── openmpi-1.6.3-gcc-4.6.3
+            ├── picard
+            │   └── 1.131
+            ├── python
+            │   └── anaconda
+            ├── R
+            │   └── 3.2.2
+            ├── samtools
+            │   └── 1.2
+            └── tophat
+                └── 2.1.0
+
+                14 directories, 14 files
+            ```
+            <!-- .element: class="shell" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### The Dockerfile: Quest Filesystem
+            Ceto expects things to be where the are on Quest.
+            ```
+            RUN mkdir -p /projects/p20742/tools
+
+            WORKDIR /projects/p20742/tools
+
+            # copy all R and perl scripts into image
+            COPY *.R *.pl ./
+            ```
+            <!-- .element: class="dockerfile" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### The Dockerfile: The Entrypoint
+            Tell Docker what program to run when the container starts.
+            ```
+            ENTRYPOINT ["/projects/p20742/tools/wrapper.sh"]
+            ```
+            <!-- .element: class="dockerfile" -->
+
+            [The wrapper](https://github.com/nuitrcs/NGSbartom/blob/docker/resources/wrapper.sh)
+            passes its arguments to `buildPipelineScripts.pl` then runs the
+            scripts it creates.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Issues and Concerns
+            - availability of software going forward (e.g. SICER)<!-- .element: class="fragment" -->
+            - maintaining module / dependency parity with Quest<!-- .element: class="fragment" -->
+            - distributing reference data<!-- .element: class="fragment" -->
+            - inefficiency and bugs in wrapper<!-- .element: class="fragment" -->
+            - not all features can be ported<!-- .element: class="fragment" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Benefits
+            With our help, researchers *can* maintain pipelines on Quest and we can package them to run elsewhere.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### A better way
+            Break apart pipelines to run individual steps within containers, allowing use of HPC scheduler or cloud.
+
+            In fact this is already underway with projects like BioContainers.<!-- .element: class="fragment" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### A (possibly) even better way
+            Nextflow, CWL and the like: tools built for writing and executing pipelines.
+            
+            Write the pipeline first, execute it in any environment (local, Quest, Cloud).<!-- .element: class="fragment" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Thank You
+            [m-rich@northwestern.edu](mailto:m-rich@northwestern.edu)
+          </script>
+        </section>
+
     </div>
   </div>
 
